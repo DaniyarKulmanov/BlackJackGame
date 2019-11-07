@@ -1,0 +1,9 @@
+ASK_NAME = 'Как Вас зовут?'.freeze
+SKIP_STEP = 'Пропустить'.freeze
+ADD_CARD = 'Добавить карту'.freeze
+OPEN_CARDS = 'Открыть карты'.freeze
+WIN = 'Вы победили'.freeze
+LOSE = 'Вы проиграли'.freeze
+DRAW = 'Ничья'.freeze
+NEW_GAME = 'Хотите сыграть ещё?'.freeze
+END_GAME = 'Закончить партию'.freeze
