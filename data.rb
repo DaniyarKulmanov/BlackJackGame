@@ -7,3 +7,7 @@ LOSE = 'Вы проиграли'.freeze
 DRAW = 'Ничья'.freeze
 NEW_GAME = 'Хотите сыграть ещё?'.freeze
 END_GAME = 'Закончить партию'.freeze
+FAREWELL = 'Досвиданье!'.freeze
+HIDDEN_CARD = "\u{1F0A0}".freeze
+SORRY = "\u{1F641}".freeze
+HAPPY = "\u{1F642}".freeze

@@ -1,3 +1,5 @@
-require_relative 'data'
+require_relative 'game'
 
-puts TEST
+puts ASK_NAME
+
+Game.new gets.chomp
