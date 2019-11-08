@@ -11,3 +11,7 @@ FAREWELL = 'Досвиданье!'.freeze
 HIDDEN_CARD = "\u{1F0A0}".freeze
 SORRY = "\u{1F641}".freeze
 HAPPY = "\u{1F642}".freeze
+ACES = [127_137, 127_153, 127_169, 127_185].freeze
+NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'D', 'E'].freeze
+SUITS = %w[A B C D].freeze
+PREFIX = '1F0'.freeze
