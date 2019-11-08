@@ -1,4 +1,5 @@
 ASK_NAME = 'Как Вас зовут?'.freeze
+ASK_GENDER = 'Укажите Ваш пол М/Ж'.freeze
 SKIP_STEP = 'Пропустить'.freeze
 ADD_CARD = 'Добавить карту'.freeze
 OPEN_CARDS = 'Открыть карты'.freeze
@@ -15,3 +16,6 @@ ACES = [127_137, 127_153, 127_169, 127_185].freeze
 NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'D', 'E'].freeze
 SUITS = %w[A B C D].freeze
 PREFIX = '1F0'.freeze
+BOY = "\u{1F466}"
+GIRL = "\u{1F467}"
+GENDER = { М: BOY, Ж: GIRL }.freeze

@@ -1,9 +1,11 @@
 require_relative 'game'
 require 'colorize'
-
-puts "\u{1F466}".light_blue
-puts "\u{1F467}".green
+require_relative 'dealer'
+require_relative 'user'
 
 puts ASK_NAME
+puts ASK_GENDER
 # нарисовать круглы покерный стол
 Game.new gets.chomp
+dealer = Dealer.new
+puts dealer.gender.light_blue
