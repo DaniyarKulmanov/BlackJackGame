@@ -9,3 +9,5 @@ puts ASK_GENDER
 Game.new gets.chomp
 dealer = Dealer.new
 puts dealer.gender.light_blue
+deck = Deck.new
+puts(deck.cards.each { |card| print card[:card].green })
