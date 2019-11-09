@@ -4,10 +4,14 @@ require_relative 'dealer'
 require_relative 'user'
 
 puts ASK_NAME
-puts ASK_GENDER
+name = gets.chomp
+gender = ''
+
+loop do
+  puts ASK_GENDER
+  gender = gets.chomp
+  break if GENDERS.include? gender
+end
 # нарисовать круглы покерный стол
-Game.new gets.chomp
-dealer = Dealer.new
-puts dealer.gender.light_blue
-deck = Deck.new
-puts(deck.cards.each { |card| print card[:card].green })
+user = User.new name, gender
+Game.new user
