@@ -5,7 +5,8 @@ class Deck
 
   def initialize
     @cards ||= []
-    collect @cards
+    collect cards
+    shuffle cards
   end
 
   def random_card
@@ -37,5 +38,9 @@ class Deck
 
   def count_points(number)
     (1..9).include?(number.to_i) ? number.to_i : 10
+  end
+
+  def shuffle(cards)
+    cards.shuffle! unless cards.nil?
   end
 end
