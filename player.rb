@@ -1,10 +1,10 @@
 class Player
-  attr_writer :money, :cards
+  attr_accessor :money, :cards
   attr_reader :name, :points, :gender
 
   def initialize(name, gender)
     @name = name
-    @gender = GENDER[gender]
+    @gender = GENDER[gender.to_sym]
     @money = 100
     @cards = []
     @points = 0
