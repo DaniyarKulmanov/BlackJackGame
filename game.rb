@@ -13,12 +13,14 @@ class Game
   end
 
   def game_start
-    # loop do
-    prepare_round
-    # round
-    # break if user want to quit game
-    # break if dealer.money.zero? || user.money.zero?
-    # end
+    loop do
+      prepare_round
+      play_round
+      # break if user want to quit game
+      # break if dealer.money.zero? || user.money.zero?
+      puts user.quit
+      break if money? || user.quit
+    end
   end
 
   private
@@ -33,19 +35,18 @@ class Game
     make_bet dealer
   end
 
-  def round
-    loop do
+  def play_round
+    # loop do
     # move user
     # move dealer
-    break if stop_round?
-    end
+    # user.money = 0
+    # dealer.money = 0
+    # end
     # show result
   end
 
-  def stop_round?
-    # user || dealer money.zero?
-    # true if dealer.points > 21 || user.points > 21
-    # true if user input == open cards
+  def money?
+    user.money.zero? || dealer.money.zero?
   end
 
   def lost
@@ -59,6 +60,7 @@ class Game
   end
 
   def take(cards, player)
+    player.cards = []
     2.times do
       player.cards.push cards.sample
     end
