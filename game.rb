@@ -1,13 +1,13 @@
 require_relative 'data'
+require_relative 'dealer'
 require_relative 'deck'
 
 class Game
 
-
-
   def initialize(user)
-    @username = user
+    @user = user
     @dealer = Dealer.new
+    @cards ||= []
     @bank = 0
     lost
   end
@@ -15,7 +15,7 @@ class Game
   def game_start
     # loop do
     prepare_round
-    round
+    # round
     # break if user want to quit game
     # break if dealer.money.zero? || user.money.zero?
     # end
@@ -23,11 +23,14 @@ class Game
 
   private
 
-  attr_accessor :username, :dealer
+  attr_accessor :user, :dealer, :cards, :bank
 
   def prepare_round
-    # give 2 cards
-    # take 10 money from both
+    @cards = Deck.new.cards
+    take cards, user
+    take cards, dealer
+    make_bet user
+    make_bet dealer
   end
 
   def round
@@ -40,17 +43,30 @@ class Game
   end
 
   def stop_round?
-    # if dealer.points > 21 || user.points > 21
-    # user input == open cards
+    # user || dealer money.zero?
+    # true if dealer.points > 21 || user.points > 21
+    # true if user input == open cards
   end
 
   def lost
-    puts "#{username} #{LOSE}"
+    puts "#{user.name} #{LOSE}"
     (1..5).each { print "#{SORRY} " }
     puts ''
   end
 
   def end_game
     puts "#{FAREWELL} #{username}"
+  end
+
+  def take(cards, player)
+    2.times do
+      player.cards.push cards.sample
+    end
+    @cards -= player.cards
+  end
+
+  def make_bet(player)
+    @bank += 10
+    player.money -= 10
   end
 end
