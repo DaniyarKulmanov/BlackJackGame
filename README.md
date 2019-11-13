@@ -23,3 +23,8 @@ Round_steps:
 1. user 
 2. dealer
 3. open cards
+load './player.rb'
+load './game.rb'
+player = Player.new 'sss', 'Ж'
+deck = Deck.new
+2.times { player.cards.push deck.cards.sample }

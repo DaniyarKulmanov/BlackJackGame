@@ -4,6 +4,21 @@ require_relative 'deck'
 
 class Game
 
+  def self.count_points(player)
+    # посчитать сумму очков
+    # добавить логику туза, если прибавить 11 и сумма выше 21 то прибавлять 1
+    alter_sum = 0
+    sum = 0
+    player.cards.each do |card|
+      alter_sum += card[:alter_points] unless card[:alter_points].nil?
+      alter_sum += card[:points] if card[:alter_points].nil?
+      sum += card[:points]
+      puts "alter_sum = #{alter_sum}, sum = #{sum}"
+      player.points = alter_sum <= 21 ? alter_sum : sum
+    end
+    puts 'after'
+  end
+
   def initialize(user)
     @user = user
     @dealer = Dealer.new
@@ -18,8 +33,9 @@ class Game
       play_round
       # break if user want to quit game
       # break if dealer.money.zero? || user.money.zero?
-      puts user.quit
-      break if no_money? || user.quit
+      # puts user.quit
+      # break if no_money? || user.quit
+      break
     end
   end
 
@@ -77,18 +93,7 @@ class Game
     count_points dealer
   end
 
-  def count_points(player)
-    # посчитать сумму очков
-    # добавить логику туза, если прибавить 11 и сумма выше 21 то прибавлять 1
-    alter_sum = 0
-    sum = 0
-    player.cards do |card|
-      alter_sum += card[:alter_points] unless card[:alter_points].nil?
-      alter_sum += card[:points] if card[:alter_points].nil?
-      sum += card[:points]
-      player.points = alter_sum <= 21 ? alter_sum : sum
-    end
-  end
+
 
   def aces_points(sums, player)
     # nearest21 = sums.sort.group_by{ |points| points <=> 21 }
