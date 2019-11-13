@@ -19,7 +19,7 @@ class Game
       # break if user want to quit game
       # break if dealer.money.zero? || user.money.zero?
       puts user.quit
-      break if money? || user.quit
+      break if no_money? || user.quit
     end
   end
 
@@ -42,10 +42,10 @@ class Game
     # user.money = 0
     # dealer.money = 0
     # end
-    # show result
+    show_result
   end
 
-  def money?
+  def no_money?
     user.money.zero? || dealer.money.zero?
   end
 
@@ -70,5 +70,34 @@ class Game
   def make_bet(player)
     @bank += 10
     player.money -= 10
+  end
+
+  def show_result
+    count_points user
+    count_points dealer
+  end
+
+  def count_points(player)
+    # посчитать сумму очков
+    # добавить логику туза, если прибавить 11 и сумма выше 21 то прибавлять 1
+    sums = []
+    sum = 0
+    alter_sum = 0
+    player.cards do |card|
+      alter_sum += card[:alter_points] unless card[:alter_points].nil?
+      alter_sum += card[:points] if card[:alter_points].nil?
+      sum += card[:points]
+    end
+    sums.push sum, alter_sum
+    aces_points sums, player
+  end
+
+  def aces_points(sums, player)
+    # nearest21 = sums.sort.group_by{ |points| points <=> 21 }
+    # fix_sum = nearest21[-1].last || nearest21[1].first
+    # player.points = fix_sum
+    a = 21 - sums[0]
+    b = 21 - sums[1]
+    nearest21 = a > b ? a : b
   end
 end
