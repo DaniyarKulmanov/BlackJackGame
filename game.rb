@@ -80,16 +80,14 @@ class Game
   def count_points(player)
     # посчитать сумму очков
     # добавить логику туза, если прибавить 11 и сумма выше 21 то прибавлять 1
-    sums = []
-    sum = 0
     alter_sum = 0
+    sum = 0
     player.cards do |card|
       alter_sum += card[:alter_points] unless card[:alter_points].nil?
       alter_sum += card[:points] if card[:alter_points].nil?
       sum += card[:points]
+      player.points = alter_sum <= 21 ? alter_sum : sum
     end
-    sums.push sum, alter_sum
-    aces_points sums, player
   end
 
   def aces_points(sums, player)
