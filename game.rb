@@ -5,18 +5,41 @@ require_relative 'deck'
 class Game
 
   def self.count_points(player)
-    # посчитать сумму очков
-    # добавить логику туза, если прибавить 11 и сумма выше 21 то прибавлять 1
-    alter_sum = 0
-    sum = 0
-    player.cards.each do |card|
-      alter_sum += card[:alter_points] unless card[:alter_points].nil?
-      alter_sum += card[:points] if card[:alter_points].nil?
-      sum += card[:points]
-      puts "alter_sum = #{alter_sum}, sum = #{sum}"
-      player.points = alter_sum <= 21 ? alter_sum : sum
+    count_simple player
+    count_aces player
+  end
+
+  def self.count_simple(player)
+    simple_cards = player.cards.select { |card| card[:alter_points].nil? }
+    simple_cards.each { |card| player.points += card[:points] }
+  end
+
+  def self.count_aces(player)
+    aces_cards = player.cards.select { |card| ACES.include? card[:card] }
+    # puts aces_cards
+    sum1 = 0
+    sum2 = 0
+    sum3 = 0
+    sums = []
+    aces_cards.each do |ace|
+      sum3 = sum1
+      sum1 += ace[:points]
+      sum2 += ace[:alter_points]
+      sum3 += ace[:alter_points]
+      # if player.points + ace[:alter_points] >= 21
+      #   player.points = player.points - ace[:alter_points] + ace[:points]
+      # else
+      #   player.points += ace[:alter_points]
+      # end
     end
-    puts 'after'
+    sums = [sum1, sum2, sum3]
+    sums.map! { |sum| sum += player.points }
+    puts sums
+    puts "nearest:"
+    sums.sort!
+    player.points = sums.select { |sum| sum <= 21 }.last
+    # check if sum >=21 and 2 or 3 aces
+    puts "player pts - #{player.points}"
   end
 
   def initialize(user)

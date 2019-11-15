@@ -28,3 +28,4 @@ load './game.rb'
 player = Player.new 'sss', 'Ж'
 deck = Deck.new
 2.times { player.cards.push deck.cards.sample }
+deck.cards.each_with_index { |value, index| puts "#{index} - #{value}" }
