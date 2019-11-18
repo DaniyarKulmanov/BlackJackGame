@@ -24,6 +24,11 @@ class Game
     end
   end
 
+  def take(cards, player)
+    player.cards.push cards.sample
+    @cards -= player.cards
+  end
+
   private
 
   attr_accessor :player, :dealer, :cards, :bank, :sums
@@ -38,8 +43,7 @@ class Game
 
   def play_round
     # loop do
-    # move user
-    take cards, player
+    player.move(self)
     # move dealer
     # user.money = 0
     # dealer.money = 0
@@ -59,12 +63,6 @@ class Game
 
   def end_game
     puts "#{FAREWELL} #{player.name}"
-  end
-
-  def take(cards, player)
-    # player.cards = []
-    player.cards.push cards.sample
-    @cards -= player.cards
   end
 
   def make_bet(player)

@@ -23,9 +23,9 @@ Round_steps:
 1. user 
 2. dealer
 3. open cards
-load './player.rb'
+load './user.rb'
 load './game.rb'
-player = Player.new 'sss', 'Ж'
+user = User.new 'sss', 'Ж'
 deck = Deck.new
 2.times { player.cards.push deck.cards.sample }
 deck.cards.each_with_index { |value, index| puts "#{index} - #{value}" }
