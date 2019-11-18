@@ -63,7 +63,7 @@ class Game
 
   def take(cards, player)
     player.cards = []
-    2.times do
+    3.times do # refactor to 2.times
       player.cards.push cards.sample
     end
     @cards -= player.cards
@@ -81,6 +81,7 @@ class Game
   end
 
   def count_points(player)
+    player.points = 0
     count_simple_cards player
     count_aces player
   end
@@ -88,28 +89,32 @@ class Game
   def count_simple_cards(player)
     simple_cards = player.cards.select { |card| card[:alter_points].nil? }
     simple_cards.each { |card| player.points += card[:points] }
+    # puts player.points
   end
 
   def count_aces(player)
     aces_cards = player.cards.select { |card| ACES.include? card[:card] }
-    collect_possible_sums aces_cards
-    @sums.map! { |sum| sum += player.points }
-    @sums.sort!
-    player.points = @sums.select { |sum| sum <= 21 }.last
-  end
-
-  def collect_possible_sums(cards)
-    if cards.empty?
-      sums = []
-      cards.each do |ace|
-        sums[2] = sum1
-        sums[0] += ace[:points]
-        sums[1] += ace[:alter_points]
-        sums[2] += ace[:alter_points]
-      end
-      @sums = sums
+    @sums = possible_sums aces_cards unless aces_cards.empty?
+    unless aces_cards.empty?
+      @sums.map! { |sum| sum += player.points }
+      @sums.sort!
+      player.points = @sums.select { |sum| sum <= 21 }.last
     end
   end
 
-  def print_result; end
+  def possible_sums(cards)
+    sums = [0, 0, 0]
+    cards.each do |ace|
+      sums[2] = sums[0]
+      sums[0] += ace[:points]
+      sums[1] += ace[:alter_points]
+      sums[2] += ace[:alter_points]
+    end
+    sums
+  end
+
+  def print_result
+    puts "player points = #{player.points}"
+    puts "player cards = #{player.cards}"
+  end
 end
