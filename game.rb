@@ -29,10 +29,9 @@ class Game
   attr_accessor :player, :dealer, :cards, :bank, :sums
 
   def prepare_round
-    @cards = Deck.new.cards
-    @sums = []
-    take cards, player
-    take cards, dealer
+    init_game_attributes
+    2.times { take cards, player }
+    2.times { take cards, dealer }
     make_bet player
     make_bet dealer
   end
@@ -40,6 +39,7 @@ class Game
   def play_round
     # loop do
     # move user
+    take cards, player
     # move dealer
     # user.money = 0
     # dealer.money = 0
@@ -62,10 +62,8 @@ class Game
   end
 
   def take(cards, player)
-    player.cards = []
-    3.times do # refactor to 2.times
-      player.cards.push cards.sample
-    end
+    # player.cards = []
+    player.cards.push cards.sample
     @cards -= player.cards
   end
 
@@ -111,6 +109,13 @@ class Game
       sums[2] += ace[:alter_points]
     end
     sums
+  end
+
+  def init_game_attributes
+    @cards = Deck.new.cards
+    @sums = []
+    player.cards = []
+    dealer.cards = []
   end
 
   def print_result
