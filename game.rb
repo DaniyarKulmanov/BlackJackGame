@@ -30,16 +30,17 @@ class Game
 
   def prepare_round
     init_game_attributes
-    default_cards player
-    default_cards dealer
     make_bet player
     make_bet dealer
   end
 
   def play_round
     # loop do
-    # player.move(self)
+    # player decide
+    # give_card player
     # move dealer
+    # dealer decide
+    # give_card dealer
     # end
     show_result
   end
@@ -78,7 +79,6 @@ class Game
   def count_simple_cards(player)
     simple_cards = player.cards.select { |card| card[:alter_points].nil? }
     simple_cards.each { |card| player.points += card[:points] }
-    # puts player.points
   end
 
   def count_aces(player)
@@ -107,11 +107,12 @@ class Game
     @sums = []
     player.cards = []
     dealer.cards = []
+    2.times { give_card player }
+    2.times { give_card dealer }
   end
 
-  def default_cards(player)
-    2.times { player.take cards }
-    @cards -= player.cards
+  def give_card(player)
+    @cards -= player.take @cards
   end
 
   def print_result
