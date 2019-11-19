@@ -24,29 +24,22 @@ class Game
     end
   end
 
-  def take(cards, player)
-    player.cards.push cards.sample
-    @cards -= player.cards
-  end
-
   private
 
   attr_accessor :player, :dealer, :cards, :bank, :sums
 
   def prepare_round
     init_game_attributes
-    2.times { take cards, player }
-    2.times { take cards, dealer }
+    default_cards player
+    default_cards dealer
     make_bet player
     make_bet dealer
   end
 
   def play_round
     # loop do
-    player.move(self)
+    # player.move(self)
     # move dealer
-    # user.money = 0
-    # dealer.money = 0
     # end
     show_result
   end
@@ -114,6 +107,11 @@ class Game
     @sums = []
     player.cards = []
     dealer.cards = []
+  end
+
+  def default_cards(player)
+    2.times { player.take cards }
+    @cards -= player.cards
   end
 
   def print_result

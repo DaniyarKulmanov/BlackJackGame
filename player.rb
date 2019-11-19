@@ -9,4 +9,8 @@ class Player
     @cards = []
     @points = 0
   end
+
+  def take(cards)
+    @cards.push cards.sample
+  end
 end
