@@ -14,4 +14,5 @@ loop do
 end
 # нарисовать круглы покерный стол
 user = User.new name, gender
-Game.new user
+game = Game.new user
+game.game_start

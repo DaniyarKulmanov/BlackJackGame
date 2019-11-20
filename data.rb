@@ -20,3 +20,8 @@ PREFIX = '1F0'.freeze
 BOY = "\u{1F466}"
 GIRL = "\u{1F467}"
 GENDER = { М: BOY, Ж: GIRL }.freeze
+ROUND_MENU = 'Сделайте выбор:
+1. Пропустить
+2. Добавить карту
+3. Открыть карты'.freeze
+DESIRE = { pass: '1', add: '2', open: '3' }.freeze

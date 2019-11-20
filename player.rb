@@ -31,9 +31,9 @@ class Player
     aces_cards = cards.select { |card| ACES.include? card[:card] }
     possible_sums aces_cards unless aces_cards.empty?
     unless aces_cards.empty?
-      @sums.map! { |sum| sum += player.points }
+      @sums.map! { |sum| sum += @points }
       @sums.sort!
-      player.points = @sums.select { |sum| sum <= 21 }.last
+      @points = @sums.select { |sum| sum <= 21 }.last
     end
   end
 
