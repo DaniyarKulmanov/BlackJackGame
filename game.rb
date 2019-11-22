@@ -11,15 +11,14 @@ class Game
     @bank = 0
   end
 
-  def game_start
+  def launch
     loop do
       prepare_round
       play_round
-      # break if user want to quit game
-      # break if dealer.money.zero? || user.money.zero?
-      # puts user.quit
-      # break if no_money? || user.quit
-      break
+      break if dealer.money.zero? || player.money.zero?
+      puts '0. Закончить партую'
+      input = gets.chomp.strip
+      break if input == '0'
     end
   end
 
@@ -28,6 +27,7 @@ class Game
   attr_accessor :player, :dealer, :cards, :bank
 
   def prepare_round
+    @bank = 0
     @cards = Deck.new.cards
     player.cards = []
     dealer.cards = []
@@ -40,7 +40,7 @@ class Game
   def play_round
     loop do
       break if player.cards.size == 3 && dealer.cards.size == 3
-      round_result
+      round_information false
       puts ROUND_MENU
       input = gets.chomp.strip
       case input
@@ -53,7 +53,7 @@ class Game
         break
       end
     end
-    round_result #change
+    round_result
   end
 
   def dealer_move
@@ -62,12 +62,6 @@ class Game
 
   def no_money?
     player.money.zero? || dealer.money.zero?
-  end
-
-  def lost
-    puts "#{player.name} #{LOSE}"
-    (1..5).each { print "#{SORRY} " }
-    puts ''
   end
 
   def end_game
@@ -79,20 +73,61 @@ class Game
     player.money -= 10
   end
 
-  def round_result
+  def round_information(show)
     player.count_points
     dealer.count_points
-    print_result
+    current_state show
   end
 
   def give_card_to(player)
     @cards -= player.take @cards
   end
 
-  def print_result
-    puts "player points = #{player.points}"
-    puts "player cards = #{player.cards}"
-    puts "Dealer points = #{dealer.points}"
-    puts "Dealer cards = #{dealer.cards}"
+  def current_state(show)
+    system "clear" unless show
+    puts "Деньги дилера #{dealer.money}$, карты дилера:"
+    dealer.cards.size.times { print "#{CLOSED_CARDS} " } unless show
+    dealer.cards.each { |card| print "#{card[:card]} " } if show
+    puts ''
+    puts "Очки дилера #{dealer.points}" if show
+    puts "Деньги #{player.money}$, Ваши карты:"
+    player.cards.each { |card| print "#{card[:card]} " }
+    puts ''
+    puts "Ваши очки = #{player.points}"
+  end
+
+  def round_result
+    player.count_points
+    dealer.count_points
+    if both_lost_or_equal
+      draw
+    else
+      winner player if player_win
+      winner dealer if dealer_win
+    end
+    round_information true
+  end
+
+  def both_lost_or_equal
+    (player.points > 21 && dealer.points > 21) || player.points == dealer.points
+  end
+
+  def player_win
+    player.points > dealer.points && player.points <= 21 || player.points <= 21 && dealer.points > 21
+  end
+
+  def dealer_win
+    dealer.points > player.points && dealer.points <= 21 || dealer.points <= 21 && player.points > 21
+  end
+
+  def winner(player)
+    puts "победил #{player.name}!"
+    player.money += bank
+  end
+
+  def draw
+    puts 'Ничья'
+    player.money += 10
+    dealer.money += 10
   end
 end

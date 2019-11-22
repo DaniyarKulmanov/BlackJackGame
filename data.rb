@@ -25,3 +25,4 @@ ROUND_MENU = 'Сделайте выбор:
 2. Добавить карту
 3. Открыть карты'.freeze
 DESIRE = { pass: '1', add: '2', open: '3' }.freeze
+CLOSED_CARDS = "\u{1F0A0}".freeze

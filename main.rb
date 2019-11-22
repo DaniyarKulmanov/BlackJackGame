@@ -9,10 +9,10 @@ gender = ''
 
 loop do
   puts ASK_GENDER
-  gender = gets.chomp
+  gender = gets.chomp.strip
   break if GENDERS.include? gender
 end
-# нарисовать круглы покерный стол
+system 'clear'
 user = User.new name, gender
 game = Game.new user
-game.game_start
+game.launch
