@@ -1,11 +1,13 @@
 require_relative 'data'
 require_relative 'dealer'
 require_relative 'deck'
+require_relative 'interface'
+require_relative 'user'
 
 class Game
 
-  def initialize(user)
-    @player = user
+  def initialize
+    @player = User.new Interface.ask_name, Interface.ask_gender
     @dealer = Dealer.new
     @cards ||= []
     @bank = 0
