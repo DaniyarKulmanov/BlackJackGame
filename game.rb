@@ -1,4 +1,3 @@
-require_relative 'data'
 require_relative 'dealer'
 require_relative 'deck'
 require_relative 'interface'
@@ -17,14 +16,14 @@ class Game
     loop do
       prepare_round
       play_round
-      break if dealer.money.zero? || player.money.zero?
-      puts '0. Закончить партую'
-      input = gets.chomp.strip
-      break if input == '0'
+      break if no_money?
+      break if Interface.quit_game == '0'
     end
   end
 
   private
+
+  DESIRE = { pass: '1', add: '2', open: '3' }.freeze
 
   attr_accessor :player, :dealer, :cards, :bank
 
@@ -43,8 +42,7 @@ class Game
     loop do
       break if player.cards.size == 3 && dealer.cards.size == 3
       round_information false
-      puts ROUND_MENU
-      input = gets.chomp.strip
+      input = Interface.round_menu
       case input
       when DESIRE[:pass]
         dealer_move
@@ -66,10 +64,6 @@ class Game
     player.money.zero? || dealer.money.zero?
   end
 
-  def end_game
-    puts "#{FAREWELL} #{player.name}"
-  end
-
   def make_bet(player)
     @bank += 10
     player.money -= 10
@@ -78,24 +72,11 @@ class Game
   def round_information(show)
     player.count_points
     dealer.count_points
-    current_state show
+    Interface.current_state show, dealer, player
   end
 
   def give_card_to(player)
     @cards -= player.take @cards
-  end
-
-  def current_state(show)
-    system "clear" unless show
-    puts "Деньги дилера #{dealer.money}$, карты дилера:"
-    dealer.cards.size.times { print "#{CLOSED_CARDS} " } unless show
-    dealer.cards.each { |card| print "#{card[:card]} " } if show
-    puts ''
-    puts "Очки дилера #{dealer.points}" if show
-    puts "Деньги #{player.money}$, Ваши карты:"
-    player.cards.each { |card| print "#{card[:card]} " }
-    puts ''
-    puts "Ваши очки = #{player.points}"
   end
 
   def round_result
@@ -123,12 +104,12 @@ class Game
   end
 
   def winner(player)
-    puts "победил #{player.name}!"
+    Interface.print_winner player
     player.money += bank
   end
 
   def draw
-    puts 'Ничья'
+    Interface.print_draw
     player.money += 10
     dealer.money += 10
   end

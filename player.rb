@@ -22,6 +22,11 @@ class Player
 
   private
 
+  BOY = "\u{1F466}"
+  GIRL = "\u{1F467}"
+  GENDER = { М: BOY, Ж: GIRL }.freeze
+  ACES = ["\u{1F0A1}", "\u{1F0B1}", "\u{1F0C1}", "\u{1F0D1}"].freeze
+
   def count_simple_cards
     simple_cards = cards.select { |card| card[:alter_points].nil? }
     simple_cards.each { |card| @points += card[:points] }
