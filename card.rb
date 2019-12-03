@@ -2,6 +2,7 @@ class Card
   NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'D', 'E'].freeze
   SUITS = %w[A B C D].freeze
   ACES = ["\u{1F0A1}", "\u{1F0B1}", "\u{1F0C1}", "\u{1F0D1}"].freeze
+  MAX_POINTS = 21
 
   attr_accessor :sums, :points
   attr_reader :cards
@@ -22,7 +23,7 @@ class Card
     unless aces_cards.empty?
       @sums.map! { |sum| sum += @points }
       @sums.sort!
-      @points = @sums.select { |sum| sum <= 21 }.last
+      @points = @sums.select { |sum| sum <= MAX_POINTS }.last
     end
   end
 

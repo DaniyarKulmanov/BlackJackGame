@@ -17,8 +17,6 @@ class Deck
 
   private
 
-  Card::NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'D', 'E'].freeze
-  Card::SUITS = %w[A B C D].freeze
   ACES = ["\u{1F0A1}", "\u{1F0B1}", "\u{1F0C1}", "\u{1F0D1}"].freeze
   PREFIX = '1F0'.freeze
 

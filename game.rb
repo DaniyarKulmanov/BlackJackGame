@@ -4,6 +4,7 @@ require_relative 'interface'
 require_relative 'user'
 
 class Game
+  WIN = 21
 
   def initialize
     @player = User.new Interface.ask_name, Interface.ask_gender
@@ -57,7 +58,7 @@ class Game
   end
 
   def dealer_move
-    give_card_to dealer if dealer.points < 17 && dealer.cards.size < 3
+    give_card_to dealer if dealer.points < Dealer::MAX && dealer.cards.size < 3
   end
 
   def no_money?
@@ -92,15 +93,15 @@ class Game
   end
 
   def both_lost_or_equal
-    (player.points > 21 && dealer.points > 21) || player.points == dealer.points
+    (player.points > 21 && dealer.points > WIN) || player.points == dealer.points
   end
 
   def player_win
-    player.points > dealer.points && player.points <= 21 || player.points <= 21 && dealer.points > 21
+    player.points > dealer.points && player.points <= WIN || player.points <= WIN && dealer.points > WIN
   end
 
   def dealer_win
-    dealer.points > player.points && dealer.points <= 21 || dealer.points <= 21 && player.points > 21
+    dealer.points > player.points && dealer.points <= WIN || dealer.points <= WIN && player.points > WIN
   end
 
   def winner(player)
