@@ -1,4 +1,5 @@
 class Card
+
   NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'D', 'E'].freeze
   SUITS = %w[A B C D].freeze
   ACES = ["\u{1F0A1}", "\u{1F0B1}", "\u{1F0C1}", "\u{1F0D1}"].freeze
@@ -13,8 +14,8 @@ class Card
   end
 
   def count_simple_cards
-    simple_cards = @cards.select { |card| card[:alter_points].nil? }
-    simple_cards.each { |card| @points += card[:points] }
+    simple_cards = @cards.select(&:alter_points?)
+    simple_cards.sum(&:card_points)
   end
 
   def count_aces
@@ -35,5 +36,25 @@ class Card
       @sums[1] += ace[:alter_points]
       @sums[2] += ace[:alter_points]
     end
+  end
+
+  private
+
+  def alter_points?
+    self[:alter_points].nil?
+  end
+
+  def card_points
+    self[:points]
+  end
+end
+
+module Enumerable
+  def alter_points?
+    self[:alter_points].nil?
+  end
+
+  def card_points
+    self[:points]
   end
 end
